@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sakura del Amor 🌸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFF0F5 50%, #FFE5EC 100%);
+            font-family: 'Georgia', serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            touch-action: manipulation;
+            cursor: pointer;
+        }
+
+        /* Pétalos flotantes de fondo */
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(ellipse at center, #FFB6C1, #FFC0CB);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Corazones flotantes de fondo */
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float-background 15s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float-background {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-30px) translateX(20px);
+            }
+        }
+
+        .tree-container {
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.2s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .tree-container:hover {
+            transform: scale(1.05);
+        }
+
+        .tree-container:active {
+            transform: scale(0.98);
+        }
+
+        .sakura-tree {
+            width: 350px;
+            height: 450px;
+            position: relative;
+        }
+
+        /* Tronco del sakura - más realista */
+        .trunk {
+            width: 45px;
+            height: 180px;
+            background: linear-gradient(to right, #4A3728, #6B5A47, #5D4E37, #4A3728);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px 5px 2px 2px;
+            box-shadow: inset -3px 0 8px rgba(0,0,0,0.4),
+                        inset 3px 0 8px rgba(139, 115, 85, 0.3);
+        }
+
+        .trunk::before {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.2);
+            top: 30px;
+            left: 8px;
+            border-radius: 2px;
+        }
+
+        .trunk::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.15);
+            top: 100px;
+            right: 10px;
+            border-radius: 2px;
+        }
+
+        /* Ramas principales - estructura más natural */
+        .branch {
+            position: absolute;
+            background: linear-gradient(to right, #5D4E37, #8B7355);
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ramas inferiores */
+        .branch-left {
+            width: 120px;
+            height: 12px;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-110px) rotate(-35deg);
+            transform-origin: right center;
+        }
+
+        .branch-right {
+            width: 120px;
+            height: 12px;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-10px) rotate(35deg);
+            transform-origin: left center;
+        }
+
+        /* Ramas medias */
+        .branch-left-2 {
+            width: 100px;
+            height: 10px;
+            bottom: 170px;
+            left: 50%;
+            transform: translateX(-95px) rotate(-45deg);
+        }
+
+        .branch-right-2 {
+            width: 100px;
+            height: 10px;
+            bottom: 170px;
+            left: 50%;
+            transform: translateX(-5px) rotate(45deg);
+        }
+
+        /* Ramas superiores */
+        .branch-top-left {
+            width: 80px;
+            height: 8px;
+            bottom: 220px;
+            left: 50%;
+            transform: translateX(-75px) rotate(-50deg);
+        }
+
+        .branch-top-right {
+            width: 80px;
+            height: 8px;
+            bottom: 220px;
+            left: 50%;
+            transform: translateX(-5px) rotate(50deg);
+        }
+
+        .branch-center {
+            width: 60px;
+            height: 9px;
+            bottom: 250px;
+            left: 50%;
+            transform: translateX(-30px) rotate(-10deg);
+        }
+
+        /* Copa de flores de sakura - rediseñada */
+        .sakura-crown {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+        }
+
+        .flower-cluster {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #FFD1E8, #FFC0CB, #FFB6C1);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4),
+                        inset -10px -10px 25px rgba(255, 182, 193, 0.5),
+                        inset 5px 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Posicionamiento orgánico de las flores */
+        .cluster-1 {
+            width: 140px;
+            height: 140px;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-70px);
+        }
+
+        .cluster-2 {
+            width: 110px;
+            height: 110px;
+            top: 20px;
+            left: -30px;
+        }
+
+        .cluster-3 {
+            width: 110px;
+            height: 110px;
+            top: 20px;
+            right: -30px;
+        }
+
+        .cluster-4 {
+            width: 100px;
+            height: 100px;
+            top: 80px;
+            left: -60px;
+        }
+
+        .cluster-5 {
+            width: 100px;
+            height: 100px;
+            top: 80px;
+            right: -60px;
+        }
+
+        .cluster-6 {
+            width: 90px;
+            height: 90px;
+            top: 130px;
+            left: 10px;
+        }
+
+        .cluster-7 {
+            width: 90px;
+            height: 90px;
+            top: 130px;
+            right: 10px;
+        }
+
+        .cluster-8 {
+            width: 85px;
+            height: 85px;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-42px);
+        }
+
+        /* Flores individuales decorativas */
+        .sakura-flower {
+            position: absolute;
+            font-size: 25px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 35px;
+            animation: float-up 3s ease-out forwards;
+            pointer-events: none;
+            z-index: 1000;
+            filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-150px) scale(1.2) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-350px) scale(0.8) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: clamp(28px, 8vw, 50px);
+            font-weight: bold;
+            color: #FF1493;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.4),
+                         0 0 15px rgba(255, 182, 193, 0.6);
+            z-index: 10000;
+            animation: pop-in 0.6s ease-out forwards;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 229, 236, 0.6));
+            padding: clamp(20px, 5vw, 40px) clamp(30px, 8vw, 60px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            border: none;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: none;
+            max-width: 90vw;
+            text-align: center;
+            word-wrap: break-word;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .message:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .message:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.15) rotate(5deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to bottom, #FFE5E5, #FFC0CB);
+            z-index: 1;
+            box-shadow: inset 0 10px 20px rgba(255, 182, 193, 0.3);
+        }
+
+        /* Emojis decorativos */
+        .love-emoji {
+            position: absolute;
+            font-size: 35px;
+            opacity: 0.5;
+            animation: float-emoji 4s ease-in-out infinite;
+        }
+
+        @keyframes float-emoji {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(10deg);
+            }
+        }
+
+        .emoji-1 { top: 8%; left: 8%; animation-delay: 0s; }
+        .emoji-2 { top: 12%; right: 10%; animation-delay: 1s; }
+        .emoji-3 { top: 60%; left: 5%; animation-delay: 2s; }
+        .emoji-4 { top: 65%; right: 8%; animation-delay: 1.5s; }
+        .emoji-5 { top: 35%; left: 12%; animation-delay: 0.5s; }
+        .emoji-6 { top: 40%; right: 15%; animation-delay: 2.5s; }
+
+        /* Prevenir que elementos decorativos bloqueen toques en iOS */
+        .petal,
+        .floating-heart,
+        .love-emoji {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pétalos de fondo -->
+    <div id="petals-container"></div>
+    
+    <!-- Corazones flotantes de fondo -->
+    <div class="floating-heart" style="top: 15%; left: 20%;">💕</div>
+    <div class="floating-heart" style="top: 25%; right: 15%;">💖</div>
+    <div class="floating-heart" style="bottom: 30%; left: 10%;">💗</div>
+    <div class="floating-heart" style="bottom: 25%; right: 20%;">💝</div>
+    
+    <!-- Emojis decorativos -->
+    <div class="love-emoji emoji-1">💌</div>
+    <div class="love-emoji emoji-2">🌹</div>
+    <div class="love-emoji emoji-3">💐</div>
+    <div class="love-emoji emoji-4">🎀</div>
+    <div class="love-emoji emoji-5">🦋</div>
+    <div class="love-emoji emoji-6">✨</div>
+    
+    <div class="ground"></div>
+    
+    <div class="tree-container" id="tree">
+        <div class="sakura-tree">
+            <!-- Tronco y ramas -->
+            <div class="trunk"></div>
+            <div class="branch branch-left"></div>
+            <div class="branch branch-right"></div>
+            <div class="branch branch-left-2"></div>
+            <div class="branch branch-right-2"></div>
+            <div class="branch branch-top-left"></div>
+            <div class="branch branch-top-right"></div>
+            <div class="branch branch-center"></div>
+            
+            <!-- Corona de flores -->
+            <div class="sakura-crown">
+                <div class="flower-cluster cluster-1"></div>
+                <div class="flower-cluster cluster-2"></div>
+                <div class="flower-cluster cluster-3"></div>
+                <div class="flower-cluster cluster-4"></div>
+                <div class="flower-cluster cluster-5"></div>
+                <div class="flower-cluster cluster-6"></div>
+                <div class="flower-cluster cluster-7"></div>
+                <div class="flower-cluster cluster-8"></div>
+                
+                <!-- Flores decorativas -->
+                <div class="sakura-flower" style="top: 0px; left: 50%; transform: translateX(-50%);">🌸</div>
+                <div class="sakura-flower" style="top: 30px; left: 20px; animation-delay: 0.5s;">🌸</div>
+                <div class="sakura-flower" style="top: 30px; right: 20px; animation-delay: 1s;">🌸</div>
+                <div class="sakura-flower" style="top: 90px; left: 0px; animation-delay: 0.3s;">🌸</div>
+                <div class="sakura-flower" style="top: 90px; right: 0px; animation-delay: 0.8s;">🌸</div>
+                <div class="sakura-flower" style="top: 140px; left: 40px; animation-delay: 0.2s;">🌸</div>
+                <div class="sakura-flower" style="top: 140px; right: 40px; animation-delay: 0.6s;">🌸</div>
+                <div class="sakura-flower" style="top: 70px; left: 50%; transform: translateX(-50%); animation-delay: 0.9s;">🌸</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        let messageShown = false;
+        let messageClickCount = 0;
+        let messageElement = null;
+        const tree = document.getElementById('tree');
+        const heartColors = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '💞'];
+
+        // Crear pétalos de fondo
+        function createPetals() {
+            const petalsContainer = document.getElementById('petals-container');
+            for (let i = 0; i < 20; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                petalsContainer.appendChild(petal);
+            }
+        }
+
+        createPetals();
+
+        // Variable para evitar múltiples ejecuciones del mismo evento
+        let isProcessing = false;
+
+        // Función para manejar el click/touch
+        function handleTreeInteraction(e) {
+            // Evitar ejecuciones múltiples del mismo toque
+            if (isProcessing) return;
+            isProcessing = true;
+            
+            setTimeout(() => {
+                isProcessing = false;
+            }, 100);
+            
+            // Prevenir comportamientos por defecto
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+            e.stopPropagation();
+            
+            clickCount++;
+            console.log('Click detectado:', clickCount); // Para debug en iPhone
+
+            // Crear corazones en la posición del árbol (no del click)
+            const numHearts = Math.floor(Math.random() * 4) + 3; // 3-6 corazones por click
+            
+            for (let i = 0; i < numHearts; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.textContent = heartColors[Math.floor(Math.random() * heartColors.length)];
+                    
+                    // Posición aleatoria cerca del árbol (centro de la pantalla)
+                    const centerX = window.innerWidth / 2;
+                    const centerY = window.innerHeight / 2;
+                    heart.style.left = (centerX + (Math.random() - 0.5) * 150) + 'px';
+                    heart.style.top = (centerY - 50) + 'px';
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Eliminar el corazón después de la animación
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 3000);
+                }, i * 120);
+            }
+
+            // Mostrar mensaje después de 15 clicks
+            if (clickCount >= 15 && !messageShown) {
+                messageShown = true;
+                setTimeout(() => {
+                    const message = document.createElement('div');
+                    message.className = 'message';
+                    message.textContent = 'FELIZ SAN VALENTÍN ❤️';
+                    messageElement = message;
+                    
+                    // Agregar evento click al mensaje con múltiples listeners
+                    const handleMessageClick = function(e) {
+                        if (e.cancelable) {
+                            e.preventDefault();
+                        }
+                        e.stopPropagation();
+                        messageClickCount++;
+                        console.log('Mensaje clickeado:', messageClickCount); // Para debug
+                        
+                        if (messageClickCount >= 5) {
+                            message.textContent = 'TE QUIERO MUCHÍSIMO';
+                            
+                            // Crear explosión adicional de corazones
+                            for (let i = 0; i < 20; i++) {
+                                setTimeout(() => {
+                                    const heart = document.createElement('div');
+                                    heart.className = 'heart';
+                                    const symbols = [...heartColors, '🌸', '🌺', '💐'];
+                                    heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                                    heart.style.top = (window.innerHeight - 50) + 'px';
+                                    heart.style.fontSize = (Math.random() * 20 + 30) + 'px';
+                                    document.body.appendChild(heart);
+                                    
+                                    setTimeout(() => {
+                                        heart.remove();
+                                    }, 3000);
+                                }, i * 40);
+                            }
+                        }
+                    };
+                    
+                    // Múltiples listeners para el mensaje
+                    message.addEventListener('pointerdown', handleMessageClick);
+                    message.addEventListener('touchstart', handleMessageClick, { passive: false });
+                    message.addEventListener('click', handleMessageClick);
+                    message.addEventListener('mousedown', handleMessageClick);
+                    
+                    document.body.appendChild(message);
+
+                    // Crear explosión de corazones y flores
+                    for (let i = 0; i < 50; i++) {
+                        setTimeout(() => {
+                            const heart = document.createElement('div');
+                            heart.className = 'heart';
+                            const symbols = [...heartColors, '🌸', '🌺', '💐'];
+                            heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                            heart.style.left = Math.random() * window.innerWidth + 'px';
+                            heart.style.top = (window.innerHeight - 50) + 'px';
+                            heart.style.fontSize = (Math.random() * 20 + 30) + 'px';
+                            document.body.appendChild(heart);
+                            
+                            setTimeout(() => {
+                                heart.remove();
+                            }, 3000);
+                        }, i * 60);
+                    }
+                }, 300);
+            }
+        }
+        
+        // Estrategia múltiple para máxima compatibilidad con iPhone
+        // 1. Pointer events (moderno)
+        document.body.addEventListener('pointerdown', handleTreeInteraction);
+        
+        // 2. Touch events (iOS Safari fallback)
+        document.body.addEventListener('touchstart', handleTreeInteraction, { passive: false });
+        
+        // 3. Click events (fallback adicional)
+        document.body.addEventListener('click', handleTreeInteraction);
+        
+        // 4. Mouse events (para desktop)
+        document.body.addEventListener('mousedown', handleTreeInteraction);
+    </script>
+</body>
+</html>
